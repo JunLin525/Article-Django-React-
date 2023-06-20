@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'map.apps.MapConfig',
     'books.apps.BooksConfig',
+    'test_app.apps.TestAppConfig',
+    'New_book.apps.NewBookConfig',
 ]
 
 MIDDLEWARE = [
