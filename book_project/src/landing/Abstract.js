@@ -22,6 +22,8 @@ function Abstract() {
         }
 
     }
+    console.log(book)
+
 
 
     return (
@@ -31,13 +33,14 @@ function Abstract() {
                 <h1>讀書摘要</h1>
                 <ul>
                     {book.map(item => (
-                        <li className='book_item' key={item.id}>
+                        <li className='book_item' key={item.pk}>
                             <div className='book_back'>
                                 <div className='book_info'>
                                     <Link to={`/abstract/${item.pk}`} > {item.NewBookName}</Link>
                                     <div className='author'>作者：{item.author_book}</div>
                                     <div className='publisher'>出版社：{item.publisher}</div>
                                     <div className='ISBN'>ISBN：{item.ISBN}</div>
+                                    <img src={item.Cover} alt="Book Cover" style={{ width: '200px', heigh: '200px' }} />
                                     <hr />
                                     <div className='Abstract'>
                                         {item.Abstract.slice(0, 50)}...

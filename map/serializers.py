@@ -7,4 +7,4 @@ class MapSerializer(serializers.ModelSerializer):
     class Meta:
         model = SEA_MAP
         fields = ("pk", "shop_name", "address",
-                  "rate", "special")
+                  "rate", "special", "cover")
