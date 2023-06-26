@@ -25,6 +25,7 @@ function AbstractDetail() {
             <div className='content'>
                 <h1>讀書摘要</h1>
                 <h4>{book.Abstract}</h4>
+                <img src={book.Cover} alt="Book Cover" style={{ width: '500px', heigh: '500px' }} />
             </div>
             <div className='landing-back' />
             <Footer />
