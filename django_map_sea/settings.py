@@ -152,3 +152,8 @@ CSRF_TRUSTED_ORIGINS = ["http://localhost:3000", "http://192.168.56.1:3000/"]
 
 MEDIA_URL = "/media/"
 MEIDA_ROOT = BASE_DIR/"media"
+
+# RESTFUL FRAMEWORK
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
