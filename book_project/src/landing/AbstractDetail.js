@@ -7,6 +7,7 @@ function AbstractDetail() {
     const { abstractID } = useParams()
     const [book, setBook] = useState({})
 
+
     useEffect(() => {
         let getNote = async () => {
 
@@ -17,6 +18,10 @@ function AbstractDetail() {
 
         getNote()
     }, [abstractID])
+
+
+
+
 
 
     return (

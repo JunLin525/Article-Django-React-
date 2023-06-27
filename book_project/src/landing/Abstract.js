@@ -7,10 +7,23 @@ import { Link } from 'react-router-dom';
 
 function Abstract() {
     const [book, setBook] = useState([])
+    const [searchKeyword, setSearchKeyword] = useState('');
 
     useEffect(() => {
         fetchData();
     }, []);
+
+    useEffect(() => {
+        let getSearch = async () => {
+            const SearchResponse = await fetch(
+                `http://127.0.0.1:8001/NewBook/?search=${searchKeyword}`
+            );
+            const result = await SearchResponse.json();
+            setBook(result);
+        };
+
+        getSearch();
+    }, [searchKeyword]);
 
     const fetchData = async () => {
         try {
@@ -24,11 +37,19 @@ function Abstract() {
     }
     console.log(book)
 
+    const handleSearch = (event) => {
+        setSearchKeyword(event.target.value);
+    };
 
 
     return (
+
         <div className='landing-background'>
             <Headerr />
+            <div className='input-container'>
+                <span className='input-label'>請在此處輸入你要查詢的標題：</span>
+                <input type='text' value={searchKeyword} onChange={handleSearch} />
+            </div>
             <div className='content'>
                 <h1>讀書摘要</h1>
                 <ul>
