@@ -1,8 +1,9 @@
-from django.shortcuts import render
-from rest_framework import generics
-from .models import New_Book
-from .serializers import NewBookSerializer
+# from rest_framework import generics
+from .models import New_Book, Comments
+from .serializers import NewBookSerializer, CommentsSerializer
 from rest_framework import filters
+from rest_framework import viewsets
+from rest_framework import generics
 
 # Create your views here.
 
@@ -17,3 +18,8 @@ class NewBookAPIView(generics.ListCreateAPIView):
 class NewBookDetailAPIView(generics.RetrieveAPIView):
     queryset = New_Book.objects.all()
     serializer_class = NewBookSerializer
+
+
+class CommentAPIView(generics.ListCreateAPIView):
+    queryset = Comments.objects.all()
+    serializer_class = CommentsSerializer
