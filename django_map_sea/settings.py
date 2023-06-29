@@ -38,17 +38,25 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
     # third party
     'crispy_forms',
     'crispy_bootstrap5',
     'rest_framework',
     'django_filters',
     'corsheaders',
+    "rest_framework.authtoken",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
+
     # app
     'accounts.apps.AccountsConfig',
     'map.apps.MapConfig',
     'books.apps.BooksConfig',
-    'test_app.apps.TestAppConfig',
     'New_book.apps.NewBookConfig',
 ]
 
@@ -70,19 +78,24 @@ ROOT_URLCONF = 'django_map_sea.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+                "django.template.context_processors.request",
             ],
         },
     },
 ]
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # new
+
+SITE_ID = 1  # new
 
 WSGI_APPLICATION = 'django_map_sea.wsgi.application'
 
@@ -156,5 +169,18 @@ MEIDA_ROOT = BASE_DIR/"media"
 
 # RESTFUL FRAMEWORK
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ],
 }
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
