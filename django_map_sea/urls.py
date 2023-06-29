@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('books/', include('books.urls')),
     path('maps/', include('map.urls')),
-    path('articles/', include('test_app.urls')),
     path('NewBook/', include('New_book.urls')),
+    path("api/v1/dj-rest-auth/", include("dj_rest_auth.urls")),  # new
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
