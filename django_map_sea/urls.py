@@ -18,11 +18,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('books/', include('books.urls')),
     path('maps/', include('map.urls')),
     path('NewBook/', include('New_book.urls')),
-    path("api/v1/dj-rest-auth/", include("dj_rest_auth.urls")),  # new
-
+    path("apis/v1/dj-rest-auth/", include("dj_rest_auth.urls")),
+    path('api/', include('base_api.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
