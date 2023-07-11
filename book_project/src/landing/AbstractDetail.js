@@ -10,8 +10,19 @@ function AbstractDetail() {
 
     useEffect(() => {
         let getNote = async () => {
+            const authTokens = JSON.parse(localStorage.getItem('authTokens')); // 從 localStorage 中獲取 Access Token
 
-            const response = await fetch(`http://170.187.229.248:8000/NewBook/detail/${abstractID}`)
+            const response = await fetch(`http://170.187.229.248:8000/NewBook/detail/${abstractID}`, {
+
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    //'Authorization': 'Bearer' + String(accessToken)
+                    'Authorization': 'Bearer ' + String(authTokens.access)
+
+                },
+            })
+
             const data = await response.json()
             setBook(data)
         }

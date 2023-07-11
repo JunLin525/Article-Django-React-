@@ -2,7 +2,6 @@ import Headerr from '../components/Headerr'
 import Footer from '../components/Footer';
 import React, { useState, useEffect } from 'react';
 
-
 function Booklist() {
     const [buku, setBuku] = useState([])
 
@@ -12,7 +11,21 @@ function Booklist() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch('http://170.187.229.248:8000/books/');
+            const authTokens = JSON.parse(localStorage.getItem('authTokens')); // 從 localStorage 中獲取 Access Token
+            // const accessToken = authTokens?.access;
+            //console.log('access:', accessToken)
+            //const response = await fetch('http://170.187.229.248:8000/books/');
+
+            const response = await fetch('http://170.187.229.248:8000/books', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    //'Authorization': 'Bearer' + String(accessToken)
+                    'Authorization': 'Bearer ' + String(authTokens.access)
+
+                },
+            })
+
             const jsonData = await response.json()
             setBuku(jsonData);
         } catch (error) {
@@ -53,6 +66,7 @@ function Booklist() {
         </div>
     )
 }
+
 
 
 export default Booklist;

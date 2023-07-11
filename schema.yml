@@ -1,0 +1,1209 @@
+openapi: 3.0.3
+info:
+  title: Blog API Project
+  version: 1.0.0
+  description: A sample blog to learn about DRF
+paths:
+  /NewBook/:
+    get:
+      operationId: NewBook_list
+      parameters:
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - NewBook
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NewBook'
+          description: ''
+    post:
+      operationId: NewBook_create
+      tags:
+      - NewBook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewBook'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NewBook'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NewBook'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewBook'
+          description: ''
+  /NewBook/comment:
+    get:
+      operationId: NewBook_comment_list
+      tags:
+      - NewBook
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comments'
+          description: ''
+    post:
+      operationId: NewBook_comment_create
+      tags:
+      - NewBook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comments'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Comments'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Comments'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comments'
+          description: ''
+  /NewBook/detail/{id}:
+    get:
+      operationId: NewBook_detail_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - NewBook
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewBook'
+          description: ''
+  /api/token/refresh:
+    post:
+      operationId: api_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/tokens:
+    post:
+      operationId: api_tokens_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MyTokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MyTokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MyTokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MyTokenObtainPair'
+          description: ''
+  /apis/v1/dj-rest-auth/login/:
+    post:
+      operationId: apis_v1_dj_rest_auth_login_create
+      description: |-
+        Check the credentials and return the REST Token
+        if the credentials are valid and authenticated.
+        Calls Django Auth login method to register User ID
+        in Django session framework
+
+        Accept the following POST parameters: username, password
+        Return the REST Framework Token Object's key.
+      tags:
+      - apis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Login'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+          description: ''
+  /apis/v1/dj-rest-auth/logout/:
+    post:
+      operationId: apis_v1_dj_rest_auth_logout_create
+      description: |-
+        Calls Django logout method and delete the Token object
+        assigned to the current User object.
+
+        Accepts/Returns nothing.
+      tags:
+      - apis
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestAuthDetail'
+          description: ''
+  /apis/v1/dj-rest-auth/password/change/:
+    post:
+      operationId: apis_v1_dj_rest_auth_password_change_create
+      description: |-
+        Calls Django Auth SetPasswordForm save method.
+
+        Accepts the following POST parameters: new_password1, new_password2
+        Returns the success/fail message.
+      tags:
+      - apis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordChange'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PasswordChange'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PasswordChange'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestAuthDetail'
+          description: ''
+  /apis/v1/dj-rest-auth/password/reset/:
+    post:
+      operationId: apis_v1_dj_rest_auth_password_reset_create
+      description: |-
+        Calls Django Auth PasswordResetForm save method.
+
+        Accepts the following POST parameters: email
+        Returns the success/fail message.
+      tags:
+      - apis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordReset'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PasswordReset'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PasswordReset'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestAuthDetail'
+          description: ''
+  /apis/v1/dj-rest-auth/password/reset/confirm/:
+    post:
+      operationId: apis_v1_dj_rest_auth_password_reset_confirm_create
+      description: |-
+        Password reset e-mail link is confirmed, therefore
+        this resets the user's password.
+
+        Accepts the following POST parameters: token, uid,
+            new_password1, new_password2
+        Returns the success/fail message.
+      tags:
+      - apis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PasswordResetConfirm'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestAuthDetail'
+          description: ''
+  /apis/v1/dj-rest-auth/user/:
+    get:
+      operationId: apis_v1_dj_rest_auth_user_retrieve
+      description: |-
+        Reads and updates UserModel fields
+        Accepts GET, PUT, PATCH methods.
+
+        Default accepted fields: username, first_name, last_name
+        Default display fields: pk, username, email, first_name, last_name
+        Read-only fields: pk, email
+
+        Returns UserModel fields.
+      tags:
+      - apis
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetails'
+          description: ''
+    put:
+      operationId: apis_v1_dj_rest_auth_user_update
+      description: |-
+        Reads and updates UserModel fields
+        Accepts GET, PUT, PATCH methods.
+
+        Default accepted fields: username, first_name, last_name
+        Default display fields: pk, username, email, first_name, last_name
+        Read-only fields: pk, email
+
+        Returns UserModel fields.
+      tags:
+      - apis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDetails'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserDetails'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserDetails'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetails'
+          description: ''
+    patch:
+      operationId: apis_v1_dj_rest_auth_user_partial_update
+      description: |-
+        Reads and updates UserModel fields
+        Accepts GET, PUT, PATCH methods.
+
+        Default accepted fields: username, first_name, last_name
+        Default display fields: pk, username, email, first_name, last_name
+        Read-only fields: pk, email
+
+        Returns UserModel fields.
+      tags:
+      - apis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserDetails'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserDetails'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserDetails'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetails'
+          description: ''
+  /books/:
+    get:
+      operationId: books_list
+      tags:
+      - books
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+          description: ''
+    post:
+      operationId: books_create
+      tags:
+      - books
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Book'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Book'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+          description: ''
+  /books/detail/{id}:
+    get:
+      operationId: books_detail_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - books
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+          description: ''
+    put:
+      operationId: books_detail_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - books
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Book'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Book'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+          description: ''
+    patch:
+      operationId: books_detail_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - books
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBook'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBook'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBook'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+          description: ''
+    delete:
+      operationId: books_detail_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - books
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /books/w/:
+    get:
+      operationId: books_w_list
+      tags:
+      - books
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookSerializers'
+          description: ''
+    post:
+      operationId: books_w_create
+      tags:
+      - books
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookSerializers'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BookSerializers'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BookSerializers'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookSerializers'
+          description: ''
+  /books/w/{id}:
+    get:
+      operationId: books_w_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - books
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookSerializers'
+          description: ''
+    put:
+      operationId: books_w_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - books
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookSerializers'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BookSerializers'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BookSerializers'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookSerializers'
+          description: ''
+    patch:
+      operationId: books_w_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - books
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBookSerializers'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBookSerializers'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBookSerializers'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookSerializers'
+          description: ''
+    delete:
+      operationId: books_w_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - books
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /maps/:
+    get:
+      operationId: maps_list
+      tags:
+      - maps
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Map'
+          description: ''
+    post:
+      operationId: maps_create
+      tags:
+      - maps
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Map'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Map'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Map'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Map'
+          description: ''
+  /maps/detail/{id}:
+    get:
+      operationId: maps_detail_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - maps
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Map'
+          description: ''
+    put:
+      operationId: maps_detail_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - maps
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Map'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Map'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Map'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Map'
+          description: ''
+    patch:
+      operationId: maps_detail_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - maps
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMap'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMap'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMap'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Map'
+          description: ''
+    delete:
+      operationId: maps_detail_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - maps
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        pk:
+          type: integer
+          readOnly: true
+          title: ID
+        book_name:
+          type: string
+          maxLength: 75
+        author:
+          type: string
+          maxLength: 50
+        publishing_house:
+          type: string
+          maxLength: 100
+        ISBN:
+          type: integer
+          maximum: 9999999999999
+          minimum: 0
+          format: int64
+        Abstract:
+          type: string
+      required:
+      - Abstract
+      - ISBN
+      - author
+      - book_name
+      - pk
+      - publishing_house
+    BookSerializers:
+      type: object
+      properties:
+        pk:
+          type: string
+          format: uuid
+          readOnly: true
+          title: Id
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        book_name:
+          type: string
+          maxLength: 75
+        author:
+          type: string
+          maxLength: 50
+        publishing_house:
+          type: string
+          maxLength: 100
+        ISBN:
+          type: integer
+          maximum: 9999999999999
+          minimum: 0
+          format: int64
+        Abstract:
+          type: string
+      required:
+      - Abstract
+      - ISBN
+      - author
+      - book_name
+      - id
+      - pk
+      - publishing_house
+    Comments:
+      type: object
+      properties:
+        article:
+          type: string
+          format: uuid
+        title:
+          type: string
+          maxLength: 150
+        author:
+          type: integer
+        text:
+          type: string
+      required:
+      - article
+      - author
+      - text
+      - title
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+      - password
+    Map:
+      type: object
+      properties:
+        pk:
+          type: integer
+          readOnly: true
+          title: ID
+        shop_name:
+          type: string
+          maxLength: 100
+        address:
+          type: string
+          maxLength: 250
+        rate:
+          type: number
+          format: double
+          maximum: 5.0
+          minimum: 1.0
+        special:
+          type: string
+          maxLength: 2000
+        cover:
+          type: string
+          format: uri
+      required:
+      - address
+      - pk
+      - rate
+      - shop_name
+      - special
+    MyTokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - password
+      - username
+    NewBook:
+      type: object
+      properties:
+        pk:
+          type: string
+          format: uuid
+          readOnly: true
+          title: Id
+        NewBookName:
+          type: string
+          maxLength: 150
+        author_book:
+          type: string
+          maxLength: 100
+        publisher:
+          type: string
+          maxLength: 100
+        Abstract:
+          type: string
+        ISBN:
+          type: integer
+          maximum: 9999999999999
+          minimum: 0
+          format: int64
+        Cover:
+          type: string
+          format: uri
+          nullable: true
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comments'
+          readOnly: true
+      required:
+      - Abstract
+      - ISBN
+      - NewBookName
+      - author_book
+      - comments
+      - pk
+      - publisher
+    PasswordChange:
+      type: object
+      properties:
+        new_password1:
+          type: string
+          maxLength: 128
+        new_password2:
+          type: string
+          maxLength: 128
+      required:
+      - new_password1
+      - new_password2
+    PasswordReset:
+      type: object
+      description: Serializer for requesting a password reset e-mail.
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    PasswordResetConfirm:
+      type: object
+      description: Serializer for confirming a password reset attempt.
+      properties:
+        new_password1:
+          type: string
+          maxLength: 128
+        new_password2:
+          type: string
+          maxLength: 128
+        uid:
+          type: string
+        token:
+          type: string
+      required:
+      - new_password1
+      - new_password2
+      - token
+      - uid
+    PatchedBook:
+      type: object
+      properties:
+        pk:
+          type: integer
+          readOnly: true
+          title: ID
+        book_name:
+          type: string
+          maxLength: 75
+        author:
+          type: string
+          maxLength: 50
+        publishing_house:
+          type: string
+          maxLength: 100
+        ISBN:
+          type: integer
+          maximum: 9999999999999
+          minimum: 0
+          format: int64
+        Abstract:
+          type: string
+    PatchedBookSerializers:
+      type: object
+      properties:
+        pk:
+          type: string
+          format: uuid
+          readOnly: true
+          title: Id
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        book_name:
+          type: string
+          maxLength: 75
+        author:
+          type: string
+          maxLength: 50
+        publishing_house:
+          type: string
+          maxLength: 100
+        ISBN:
+          type: integer
+          maximum: 9999999999999
+          minimum: 0
+          format: int64
+        Abstract:
+          type: string
+    PatchedMap:
+      type: object
+      properties:
+        pk:
+          type: integer
+          readOnly: true
+          title: ID
+        shop_name:
+          type: string
+          maxLength: 100
+        address:
+          type: string
+          maxLength: 250
+        rate:
+          type: number
+          format: double
+          maximum: 5.0
+          minimum: 1.0
+        special:
+          type: string
+          maxLength: 2000
+        cover:
+          type: string
+          format: uri
+    PatchedUserDetails:
+      type: object
+      description: User model w/o password
+      properties:
+        pk:
+          type: integer
+          readOnly: true
+          title: ID
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          readOnly: true
+          title: Email address
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+    RestAuthDetail:
+      type: object
+      properties:
+        detail:
+          type: string
+          readOnly: true
+      required:
+      - detail
+    Token:
+      type: object
+      description: Serializer for Token model.
+      properties:
+        key:
+          type: string
+          maxLength: 40
+      required:
+      - key
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+    UserDetails:
+      type: object
+      description: User model w/o password
+      properties:
+        pk:
+          type: integer
+          readOnly: true
+          title: ID
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          readOnly: true
+          title: Email address
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+      required:
+      - email
+      - pk
+      - username
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

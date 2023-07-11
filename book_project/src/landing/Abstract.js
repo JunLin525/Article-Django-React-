@@ -15,9 +15,17 @@ function Abstract() {
 
     useEffect(() => {
         let getSearch = async () => {
+            const authTokens = JSON.parse(localStorage.getItem('authTokens')); // 從 localStorage 中獲取 Access Token
             const SearchResponse = await fetch(
-                `http://127.0.0.1:8001/NewBook/?search=${searchKeyword}`
-            );
+                `http://127.0.0.1:8001/NewBook/?search=${searchKeyword}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    //'Authorization': 'Bearer' + String(accessToken)
+                    'Authorization': 'Bearer ' + String(authTokens.access)
+
+                },
+            })
             const result = await SearchResponse.json();
             setBook(result);
         };
@@ -27,7 +35,16 @@ function Abstract() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch('http://170.187.229.248:8000/NewBook/')
+            const authTokens = JSON.parse(localStorage.getItem('authTokens')); // 從 localStorage 中獲取 Access Token
+            const response = await fetch('http://170.187.229.248:8000/NewBook/', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    //'Authorization': 'Bearer' + String(accessToken)
+                    'Authorization': 'Bearer ' + String(authTokens.access)
+
+                },
+            })
             const jsonData = await response.json()
             setBook(jsonData);
         } catch (error) {

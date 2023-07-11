@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "dj_rest_auth",
     "dj_rest_auth.registration",
+    'drf_spectacular',
+
 
     # app
     'accounts.apps.AccountsConfig',
@@ -176,7 +178,11 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+
 }
 
 
@@ -224,3 +230,10 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Website API View",
+    "DESCRIPTION": "A Simple website to learn about DRF",
+    "VERSION": "1.0.0",
+    # OTHER SETTINGS
+}

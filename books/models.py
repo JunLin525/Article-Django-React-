@@ -23,28 +23,3 @@ class SEA_Book(models.Model):
     class Meta:
         verbose_name_plural = "SEA_BOOKs"
         verbose_name = "SEA_BOOK"
-
-
-class SEA_Booksss(models.Model):
-    id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False)
-
-    book_name = models.CharField(max_length=75)
-    author = models.CharField(max_length=50)
-    publishing_house = models.CharField(max_length=100)
-    ISBN = models.PositiveIntegerField(
-        validators=[
-            MaxValueValidator(9999999999999),
-            MinValueValidator(0000000000000)
-        ]
-    )
-    Abstract = models.TextField()
-
-    def __str__(self):
-        return self.book_name
-
-    class Meta:
-        verbose_name_plural = "SEA_BOOKsss"
-        verbose_name = "SEA_BOOK!"
