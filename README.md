@@ -4,6 +4,10 @@
 
 ### 使用後端
 #### 運行
+可以先行使用下列指令安裝python環境確保可以在相同環境中運行。
+```
+pip install -r requirements.txt
+```
 在使用上，我們有著前端與後端的區別，運作後端的時候要進到django_map_sea第一層有著manage.py檔的資料夾中，使用下列指令
 ```
 python3 manage.py runserver <port number>
