@@ -2,6 +2,34 @@
 ### 主旨
 這個一個利用Django做為後端及React作為前端的小型個人專案，旨在讓一個簡單的API方式來串接一個簡單的React前端，藉以來作為簡易練習。
 
+### 使用後端
+#### 運行
+在使用上，我們有著前端與後端的區別，運作後端的時候要進到django_map_sea第一層有著manage.py檔的資料夾中，使用下列指令
+```
+python3 manage.py runserver <port number>
+```
+一般若沒有指定，django會運行在port 8000上。
+#### 建立superuser
+若有需要創造一個新的管理者，可以使用下列指令
+```
+python3 manage.py createsuperuser
+```
+輸入你的使用者帳號密碼即可，若是輸入沒看到字元這是正常的，這是本來預設的狀況，並不是你的電腦當機。
+
+基本上建立之後你就可以使用整個資料後端API的功能了
+
+### 使用前端
+前端的話要進到[book_project](https://github.com/JunLin525/Article-Django-React-/tree/main/book_project)資料夾中，先做下列指令安裝環境
+```
+npm install
+```
+等待安裝完成後進到下一階段，使用下列指令就可以運行了。
+```
+npm start
+```
+一般而言會運行在port 3000上，若有指令查詢的需求，可以到package.json裡面查看跟修改。
+
+
 ### 介紹
 
 #### [New_book](https://github.com/JunLin525/Article-Django-React-/tree/main/New_book)
