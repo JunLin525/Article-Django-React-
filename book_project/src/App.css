@@ -94,11 +94,8 @@ body {
 }
 
 .content {
-
   height: 100%;
-  display: flex;
-  flex-direction: column;
-
+  display: grid;
 }
 
 .book_item {
@@ -130,4 +127,20 @@ body {
 .input-label {
   margin-right: 10px;
   font-size: 20px;
+}
+
+.textarea {
+  width: 1200px;
+  height: 300px;
+}
+
+.commentTitle {
+  width: 1200px;
+  height: 30px;
+
+}
+
+.commentButton {
+  width: 120px;
+  height: 30px;
 }

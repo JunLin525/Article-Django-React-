@@ -19,11 +19,16 @@ class NewBookAPIView(generics.ListCreateAPIView):
     search_fields = ['NewBookName', 'author_book']
 
 
-class NewBookDetailAPIView(generics.RetrieveAPIView):
+class NewBookDetailAPIView(generics.RetrieveDestroyAPIView):
     queryset = New_Book.objects.all()
     serializer_class = NewBookSerializer
 
 
 class CommentAPIView(generics.ListCreateAPIView):
+    queryset = Comments.objects.all()
+    serializer_class = CommentsSerializer
+
+
+class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comments.objects.all()
     serializer_class = CommentsSerializer

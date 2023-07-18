@@ -12,27 +12,27 @@ function Abstract() {
     useEffect(() => {
         fetchData();
     }, []);
+    /*
+        useEffect(() => {
+            let getSearch = async () => {
+                const authTokens = JSON.parse(localStorage.getItem('authTokens')); // 從 localStorage 中獲取 Access Token
+                const SearchResponse = await fetch(
+                    `http://127.0.0.1:8001/NewBook/?search=${searchKeyword}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        //'Authorization': 'Bearer' + String(accessToken)
+                        'Authorization': 'Bearer ' + String(authTokens.access)
+    
+                    },
+                })
+                const result = await SearchResponse.json();
+                setBook(result);
+            };
 
-    useEffect(() => {
-        let getSearch = async () => {
-            const authTokens = JSON.parse(localStorage.getItem('authTokens')); // 從 localStorage 中獲取 Access Token
-            const SearchResponse = await fetch(
-                `http://127.0.0.1:8001/NewBook/?search=${searchKeyword}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    //'Authorization': 'Bearer' + String(accessToken)
-                    'Authorization': 'Bearer ' + String(authTokens.access)
-
-                },
-            })
-            const result = await SearchResponse.json();
-            setBook(result);
-        };
-
-        getSearch();
-    }, [searchKeyword]);
-
+    getSearch();
+}, [searchKeyword]);
+*/
     const fetchData = async () => {
         try {
             const authTokens = JSON.parse(localStorage.getItem('authTokens')); // 從 localStorage 中獲取 Access Token
@@ -64,6 +64,11 @@ function Abstract() {
         <div className='landing-background'>
             <Headerr />
             <div className='input-container'>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
                 <span className='input-label'>請在此處輸入你要查詢的標題：</span>
                 <input type='text' value={searchKeyword} onChange={handleSearch} />
             </div>
